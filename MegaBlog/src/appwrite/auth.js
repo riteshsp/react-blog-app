@@ -9,12 +9,13 @@ class AuthService {
         this.account = new Account(this.client)
     }
 
-    async createAccount({ email, password, name }) {
+    async createAccount(email, password ,name) {
         try {
             const userAccount = await this.account.create(
                 ID.unique(),
-                'email@example.com',
-                'password'
+                email,
+                password,
+                name
             );
             if (userAccount) {
                 this.logIn(email, password)
@@ -28,12 +29,12 @@ class AuthService {
         }
     }
 
-
-    async logIn(email, password) {
+    async logIn(email,password) {
         try {
-            return await this.account.createEmailPasswordSession(email, password);
+            return await this.account.createEmailPasswordSession(email,password);
         }
         catch (error) {
+            console.log(error);
             throw error
         }
     }
@@ -41,10 +42,20 @@ class AuthService {
     async getCurrentUser() {
         // Assuming Appwrite SDK is initialized
         try {
-            const user = await this.account.get();
-            console.log(user);
+            return await this.account.get();
         } catch (error) {
-            console.error(error);
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async deleteSessions() {
+        // Assuming Appwrite SDK is initialized
+        try {
+            const user = await this.account.deleteSessions();
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
     }
 

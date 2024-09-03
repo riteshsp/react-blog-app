@@ -4,8 +4,10 @@ import { useState,useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import authService from './appwrite/auth'
 import { login,logout } from './store/authSlice'
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 import {Header,Footer}  from './components'
+import { BrowserRouter } from 'react-router-dom'
+import MainRoutes from './components/Routes/MainRoutes'
 
 
 function App() {
@@ -25,14 +27,15 @@ function App() {
     .finally(()=>setLoading(false))
   },[])
 
-  
+
   return !loading?(
-
-    <div className='min-h-screen flex flex-wrap content-between bg-gray-600'>test
-    <Header/>
-    <Footer/>
-    </div>
-
+    <>
+    <BrowserRouter>
+     <MainRoutes/>
+      <Header/>
+      <Footer/>
+    </BrowserRouter>
+    </>
   ):null;
     
   
